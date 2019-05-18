@@ -1,0 +1,5 @@
+from centos
+run yum -y install openssh-server openssh-clients
+run yum clean all
+
+run echo 'root:root' | chpasswd

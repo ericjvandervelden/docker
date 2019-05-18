@@ -1,0 +1,14 @@
+from centos
+run yum -y install openssh-server openssh-clients
+run yum clean all
+
+run echo 'root:root' | chpasswd
+
+run FIL="/etc/ssh/sshd_config";TMP="$(mktemp)";awk '{print gensub("(#)(PermitRootLogin yes)","\\2",1);}' "$FIL" >"$TMP";mv -f "$TMP" "$FIL"
+
+run ssh-keygen -A
+
+run ssh-keygen -N "" -t rsa -f ~/.ssh/id_rsa
+run cat ~/.ssh/id_rsa.pub >>~/.ssh/authorized_keys
+
+CMD ["/usr/sbin/sshd","-D"]
